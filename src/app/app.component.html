@@ -1,0 +1,96 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    E-Book Library
+  </h1>
+  <!-- Search input field -->
+  <div class="input-group col">
+    <input class="form-control py-2" type="search" [(ngModel)]="searchTitle" id="example-search-input" placeholder="Enter title to search">
+    <span class="input-group-append">
+      <button (click)="searchBooks()" class="btn btn-outline-secondary" type="button">
+        <i class="fa fa-search"></i>
+      </button>
+    </span>
+  </div>
+  <!-- Search Options -->
+  <div class="search-options">
+    <label class="radio-inline"><input (change)="onOptionChange()" type="radio" name="optradio" [(ngModel)]="optionSelected"
+        value="open-lib" checked>Open Library Search</label>
+    <label class="radio-inline"><input (change)="onOptionChange()" type="radio" name="optradio" [(ngModel)]="optionSelected"
+        value="good-reads">Good Reads</label>
+  </div>
+  <!-- Open Lib Search Results -->
+  <div *ngIf="optionSelected === 'open-lib'" class="container-fluid">
+    <div *ngIf="!isSearchInProgress && !isSearchFailed" class="row">
+      <ng-container *ngIf="searchResultsArr.length > 0">
+        <ng-container *ngFor="let book of searchResultsArr">
+          <div class="col book-container">
+            <div class="imagine-container">
+              <img src="http://covers.openlibrary.org/b/id/{{book.cover_i}}-M.jpg?default=false" alt="Image Not Available" />
+            </div>
+            <div class="book-details">
+              <p><strong>Title: </strong>{{book?.title}}</p>
+              <p>
+                <strong>Author: </strong>
+                <ng-container *ngFor="let author of book.author_name">{{author}}</ng-container>
+              </p>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="text-msg" *ngIf="noResultsFound">
+      <p>No results found</p>
+    </div>
+    <div class="text-msg" *ngIf="isSearchInProgress">
+      <p>loading...</p>
+    </div>
+    <div class="fail-msg" *ngIf="isSearchFailed">
+      <p class="">Unable to search. Try again later.</p>
+    </div>
+  </div>
+  <!-- Good Reads Search Results -->
+  <div *ngIf="optionSelected === 'good-reads'" class="container-fluid">
+    <ul class="pagination justify-content-end" *ngIf="!isSearchInProgress && !isSearchFailed && (resultsCountDetails?.resultsTotal > resultsCountDetails?.resultsEnd)">
+      <li class="page-item" [class.disabled]="resultsCountDetails?.resultsStart === 1">
+        <a class="page-link" href="#" (click)="searchGoodReads((resultsCountDetails?.resultsEnd)/20)">Previous</a>
+      </li>
+      <li class="page-item" [class.disabled]="resultsCountDetails?.resultsEnd === resultsCountDetails?.resultsTotal">
+        <a class="page-link" href="#" (click)="searchGoodReads((resultsCountDetails?.resultsEnd/20)+1)">Next</a>
+      </li>
+    </ul>
+    <div *ngIf="!isSearchInProgress && !isSearchFailed" class="row">
+      <ng-container *ngIf="searchResultsArr.length > 0">
+        <ng-container *ngFor="let book of searchResultsArr">
+          <div class="col book-container">
+            <div class="imagine-container">
+              <img src="{{book?.best_book?.image_url}}" alt="Image Not Available" />
+            </div>
+            <div class="book-details">
+              <p><strong>Title: </strong>{{book?.best_book?.title}}</p>
+              <p><strong>Author: </strong>{{book?.best_book?.author?.name}}</p>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+    <ul class="pagination justify-content-end" *ngIf="!isSearchInProgress && !isSearchFailed && (resultsCountDetails?.resultsTotal > resultsCountDetails?.resultsEnd)">
+      <li class="page-item" [class.disabled]="resultsCountDetails?.resultsStart === 1">
+        <a class="page-link" href="#" (click)="searchGoodReads((resultsCountDetails?.resultsEnd)/20)">Previous</a>
+      </li>
+      <li class="page-item" [class.disabled]="resultsCountDetails?.resultsEnd === resultsCountDetails?.resultsTotal">
+        <a class="page-link" href="#" (click)="searchGoodReads((resultsCountDetails?.resultsEnd/20)+1)">Next</a>
+      </li>
+    </ul>
+    <div class="text-msg" *ngIf="noResultsFound">
+      <p>No results found</p>
+    </div>
+    <div class="text-msg" *ngIf="isSearchInProgress">
+      <p>loading...</p>
+    </div>
+    <div class="fail-msg" *ngIf="isSearchFailed">
+      <p class="">Unable to search. Try again later.</p>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

@@ -1,0 +1,46 @@
+
+.book-container {
+    border: solid 2px lightgrey;
+    text-align: center;
+    padding: 15px 10px 0px 10px;
+    margin: 10px;
+    border-radius: 10px;
+    min-width: 300px;
+}
+
+.row {
+    margin-top: 20px;
+}
+
+.thumbnail-img {
+    width: 80%;
+}
+
+.book-details {
+    padding-top: 20px;
+}
+
+.imagine-container {
+    min-height: 200px;
+}
+
+.fail-msg, .text-msg {
+    margin-top: 30%;
+}
+
+.input-group {
+    width: 70%;
+    margin: 0 15% 0 15%;
+}
+
+.pagination {
+    margin-top: 25px;
+}
+
+.search-options {
+    margin-top: 20px;
+}
+
+.radio-inline {
+    margin-left: 20px;
+}
